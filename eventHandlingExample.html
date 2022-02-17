@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Difference Between event.stopPropagation() and event.stopImmediatePropagation()</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      #grandparent {
+        width: 400px;
+        height: 400px;
+        background-color: rgb(147, 147, 252);
+      }
+      #parent {
+        width: 250px;
+        height: 250px;
+        background-color: rgb(255, 129, 129);
+      }
+      #child {
+        width: 100px;
+        height: 100px;
+        background-color: rgb(137, 255, 137);
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="grandparent">
+      <div id="parent">
+        <div id="child"></div>
+      </div>
+    </div>
+
+    <script>
+      const gp = document.getElementById("grandparent");
+      const p = document.getElementById("parent");
+      const c = document.getElementById("child");
+
+      // Capturing
+      gp.addEventListener("click", (e) => { console.log("Capture: Grandparent clicked!") }, { capture: true } );
+      p.addEventListener( "click", (e) => { console.log("Capture: Parent clicked!") }, { capture: true } );
+      c.addEventListener( "click", (e) => { console.log("Capture: Child clicked!")  }, { capture: true } );
+
+      // Bubbling
+      gp.addEventListener("click", (e) => { console.log("Bubble: Grandparent clicked!") });
+      p.addEventListener( "click", (e) => { console.log("Bubble: Parent clicked!") });
+      // p.addEventListener( "click", (e) => { e.stopPropagation(); console.log("Bubble: Parent clicked!"); });
+      // p.addEventListener( "click", (e) => { e.stopImmediatePropagation(); console.log("Bubble: Parent clicked!"); });
+      c.addEventListener( "click", (e) => { console.log("Bubble: Child clicked!") });
+
+      // Other Events on Parent
+      p.addEventListener("click",  (e) => { console.log("Alpha Bubble: Parent clicked!") });
+      p.addEventListener("click",  (e) => { console.log("Beta Bubble: Parent clicked!") });
+    </script>
+  </body>
+</html>
